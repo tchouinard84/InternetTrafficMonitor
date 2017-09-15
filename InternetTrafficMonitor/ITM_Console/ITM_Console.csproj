@@ -49,9 +49,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BrowserLocation.cs" />
+    <Compile Include="Browser.cs" />
+    <Compile Include="ChromeUrlRetriever.cs" />
+    <Compile Include="FirefoxUrlRetriever.cs" />
+    <Compile Include="InternetExplorerUrlRetriever.cs" />
+    <Compile Include="IUrlRetriever.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UrlRetriever.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

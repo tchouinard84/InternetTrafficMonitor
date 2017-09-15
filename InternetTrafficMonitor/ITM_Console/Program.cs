@@ -4,107 +4,38 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Automation;
 
 namespace ITM_Console
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
-            while (true) { GetCurrentBrowsersUrl(); }
+            //while (true) { GetCurrentBrowsersUrl(); }
             //ListenForNetworkChanges();
-        }
 
-        private static void GetCurrentBrowsersUrl()
-        {
-            foreach (Process process in Process.GetProcessesByName("firefox"))
+            var browsers = new List<IUrlRetriever>()
             {
-                string url = GetFirefoxUrl(process);
-                if (url == null)
-                    continue;
+                new ChromeUrlRetriever(),
+                new InternetExplorerUrlRetriever()
+            };
 
-                Console.WriteLine("FF Url for '" + process.MainWindowTitle + "' is " + url);
-            }
-
-            foreach (Process process in Process.GetProcessesByName("iexplore"))
+            while (true)
             {
-                string url = GetInternetExplorerUrl(process);
-                if (url == null)
-                    continue;
-
-                Console.WriteLine("IE Url for '" + process.MainWindowTitle + "' is " + url);
-            }
-
-            foreach (Process process in Process.GetProcessesByName("chrome"))
-            {
-                string url = GetChromeUrl(process);
-                if (url == null)
-                    continue;
-
-                Console.WriteLine("CH Url for '" + process.MainWindowTitle + "' is " + url);
+                Thread.Sleep(2000);
+                foreach (var browser in browsers)
+                {
+                    var url = browser.MaybeGetCurrentBrowserUrl();
+                    if (url == null) { continue; }
+                    Console.WriteLine(url);
+                    Console.WriteLine("---------------------------------------------------------------");
+                }
             }
         }
 
-        public static string GetChromeUrl(Process process)
-        {
-            if (process == null)
-                throw new ArgumentNullException("process");
-
-            if (process.MainWindowHandle == IntPtr.Zero)
-                return null;
-
-            AutomationElement element = AutomationElement.FromHandle(process.MainWindowHandle);
-            if (element == null)
-                return null;
-            AutomationElement edit = element.FindFirst(TreeScope.Subtree,
-                new AndCondition(
-                    new PropertyCondition(AutomationElement.NameProperty, "address and search bar", PropertyConditionFlags.IgnoreCase),
-                    new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Edit)));
-
-            return ((ValuePattern)edit.GetCurrentPattern(ValuePattern.Pattern)).Current.Value as string;
-        }
-
-        public static string GetInternetExplorerUrl(Process process)
-        {
-            if (process == null)
-                throw new ArgumentNullException("process");
-
-            if (process.MainWindowHandle == IntPtr.Zero)
-                return null;
-
-            AutomationElement element = AutomationElement.FromHandle(process.MainWindowHandle);
-            if (element == null)
-                return null;
-
-            AutomationElement rebar = element.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ClassNameProperty, "ReBarWindow32"));
-            if (rebar == null)
-                return null;
-
-            AutomationElement edit = rebar.FindFirst(TreeScope.Subtree, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Edit));
-
-            return ((ValuePattern)edit.GetCurrentPattern(ValuePattern.Pattern)).Current.Value as string;
-        }
-
-        public static string GetFirefoxUrl(Process process)
-        {
-            if (process == null)
-                throw new ArgumentNullException("process");
-
-            if (process.MainWindowHandle == IntPtr.Zero)
-                return null;
-
-            AutomationElement element = AutomationElement.FromHandle(process.MainWindowHandle);
-            if (element == null)
-                return null;
-
-            AutomationElement doc = element.FindFirst(TreeScope.Subtree, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Document));
-            if (doc == null)
-                return null;
-
-            return ((ValuePattern)doc.GetCurrentPattern(ValuePattern.Pattern)).Current.Value as string;
-        }
 
         /*
 
