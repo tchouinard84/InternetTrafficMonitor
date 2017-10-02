@@ -11,7 +11,10 @@ namespace ITM_Console
     public abstract class UrlRetriever : IUrlRetriever
     {
         private string currentUrl;
+        private Process currentProcess;
         public Browser TheBrowser { get; protected set; }
+
+        public Process TheProcess => currentProcess;
 
         public string MaybeGetCurrentBrowserUrl()
         {
@@ -23,7 +26,8 @@ namespace ITM_Console
                 if (url.Equals(currentUrl)) { return null; }
 
                 currentUrl = url;
-                return TheBrowser.ToString() + " Url for '" + process.MainWindowTitle + "' is " + url;
+                currentProcess = process;
+                return TheBrowser + " Url for '" + process.MainWindowTitle + "' is " + url;
             }
             return null;
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
@@ -14,8 +15,10 @@ namespace ITM_Console
     {
         static void Main(string[] args)
         {
-            //while (true) { GetCurrentBrowsersUrl(); }
-            //ListenForNetworkChanges();
+            var inappropriateContent = File.ReadLines(@"C:\Users\tchouina\inappropriate_content.txt");
+            var inappropriateWords = new List<string>();
+
+            foreach (var word in inappropriateContent) { inappropriateWords.Add(" " + word + " "); }
 
             var browsers = new List<IUrlRetriever>()
             {
@@ -23,54 +26,45 @@ namespace ITM_Console
                 new InternetExplorerUrlRetriever()
             };
 
-            while (true)
+            //while (true)
             {
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
                 foreach (var browser in browsers)
                 {
                     var url = browser.MaybeGetCurrentBrowserUrl();
                     if (url == null) { continue; }
                     Console.WriteLine(url);
                     Console.WriteLine("---------------------------------------------------------------");
+
+                    var process = browser.TheProcess;
+
+                    Console.WriteLine("MachineName: " + process.MachineName);
+                    Console.WriteLine("MainWindowTitle: " + process.MainWindowTitle);
+                    Console.WriteLine("ProcessName: " + process.ProcessName);
+                    Console.WriteLine("UserProcessorTime: " + process.UserProcessorTime);
+                    Console.WriteLine("HandleCount: " + process.HandleCount);
+                    Console.WriteLine("Number of Threads: " + process.Threads.Count);
+                    Console.WriteLine("process: " + process);
+
+                    foreach (var word in inappropriateWords)
+                    {
+                        if (!url.Contains(word)) { continue; }
+                        Console.WriteLine(Environment.NewLine + "@@@@ ---- ALERT - Inappropriate Content -Detected: " + word + " ---- @@@@" + Environment.NewLine);
+                        process.CloseMainWindow();
+                    }
                 }
             }
-        }
 
-
-        /*
-
-        private static void ListenForNetworkChanges()
-        {
-            while (true)
+            /*
+            foreach (var process in Process.GetProcessesByName("chrome"))
             {
-                NetworkChange.NetworkAvailabilityChanged += NetworkAvailabilityChanged;
-                NetworkChange.NetworkAddressChanged += NetworkAddressChanged;
-            }
-        }
+                if (process == null) { throw new ArgumentNullException("process"); }
+                if (process.MainWindowHandle == IntPtr.Zero) { return; }
 
-        private static void NetworkAddressChanged(object sender, EventArgs e)
-        {
-            Console.WriteLine("Current IP Addresses:");
-            foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
-            {
-                foreach (UnicastIPAddressInformation addr in ni.GetIPProperties().UnicastAddresses)
-                {
-                    Console.WriteLine("    - {0} (lease expires {1})", addr.Address, DateTime.Now + new TimeSpan(0, 0, (int)addr.DhcpLeaseLifetime));
-                }
+                var mainForm = AutomationElement.FromHandle(process.MainWindowHandle);
+                Console.WriteLine(mainForm.GetCurrentPropertyValue(AutomationProperty.LookupById(0)));
             }
+            */
         }
-
-        private static void NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
-        {
-            if (e.IsAvailable)
-            {
-                Console.WriteLine("Network Available");
-            }
-            else
-            {
-                Console.WriteLine("Network Unavailable");
-            }
-        }
-        */
     }
 }
