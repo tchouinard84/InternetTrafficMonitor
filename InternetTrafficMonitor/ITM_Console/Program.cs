@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Automation;
 
 namespace ITM_Console
 {
@@ -15,7 +9,7 @@ namespace ITM_Console
     {
         static void Main(string[] args)
         {
-            var inappropriateContent = File.ReadLines(@"C:\Users\tchouina\inappropriate_content.txt");
+            var inappropriateContent = File.ReadLines(@"C:\Users\tchouina\Personal\InternetMonitor\inappropriate_content.txt");
             var inappropriateWords = new List<string>();
 
             foreach (var word in inappropriateContent) { inappropriateWords.Add(" " + word + " "); }
@@ -26,9 +20,10 @@ namespace ITM_Console
                 new InternetExplorerUrlRetriever()
             };
 
-            //while (true)
+            while (true)
             {
                 Thread.Sleep(1000);
+
                 foreach (var browser in browsers)
                 {
                     var url = browser.MaybeGetCurrentBrowserUrl();
@@ -37,7 +32,7 @@ namespace ITM_Console
                     Console.WriteLine("---------------------------------------------------------------");
 
                     var process = browser.TheProcess;
-
+                    /*
                     Console.WriteLine("MachineName: " + process.MachineName);
                     Console.WriteLine("MainWindowTitle: " + process.MainWindowTitle);
                     Console.WriteLine("ProcessName: " + process.ProcessName);
@@ -45,6 +40,7 @@ namespace ITM_Console
                     Console.WriteLine("HandleCount: " + process.HandleCount);
                     Console.WriteLine("Number of Threads: " + process.Threads.Count);
                     Console.WriteLine("process: " + process);
+                    */
 
                     foreach (var word in inappropriateWords)
                     {
