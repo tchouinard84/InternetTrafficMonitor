@@ -11,7 +11,7 @@ namespace InternetMonitor
         private const string ALERT_ITEMS_FILE_PATH = BASE_DIR + @"\alert_words.txt";
         private const string IGNORE_ITEMS_FILE_PATH = BASE_DIR + @"\ignore_items.txt";
 
-        private readonly List<string> _websites;
+        private WebsiteHistory _websiteHistory;
         private List<string> _alertWords;
         private List<string> _ignoreItems;
         private readonly string _filePath;
@@ -20,7 +20,7 @@ namespace InternetMonitor
         {
             Directory.CreateDirectory(LOG_DIR);
             _filePath = LOG_DIR + "\\" + DateTime.Now.ToString("yyyy-MM-dd") + "_internet_monitor.log";
-            _websites = new List<string>();
+            _websiteHistory = new WebsiteHistory();
             InitializeAlertWords();
             InitializeIgnoreItems();
         }
@@ -75,7 +75,7 @@ namespace InternetMonitor
 
         public void MaybeAddAndLog(string website)
         {
-            if (_websites.Contains(website)) { return; }
+            if (_websiteHistory.Contains(website)) { return; }
 
             foreach (var item in _ignoreItems)
             {
@@ -83,7 +83,7 @@ namespace InternetMonitor
             }
 
             Log(website);
-            _websites.Add(website);
+            _websiteHistory.Add(website);
         }
     }
 }
