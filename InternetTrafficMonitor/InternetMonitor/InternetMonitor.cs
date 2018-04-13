@@ -41,13 +41,6 @@ namespace InternetMonitor
             Run();
         }
 
-        public void Stop()
-        {
-            _history.Stop();
-            _running = false;
-            _internetLog.Log(LogType.Stop, "Stop Log.");
-        }
-
         public void Stop(string reason)
         {
             _history.Stop(reason);

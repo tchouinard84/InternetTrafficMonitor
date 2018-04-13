@@ -57,11 +57,6 @@ namespace InternetMonitor
             return LogType.Info;
         }
 
-        public void Stop()
-        {
-            _data.Write(InternetHistoryEntry.StopEntry());
-        }
-
         public void Stop(string reason)
         {
             _data.Write(InternetHistoryEntry.StopEntry(reason));

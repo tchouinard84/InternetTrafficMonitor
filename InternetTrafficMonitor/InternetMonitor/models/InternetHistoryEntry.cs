@@ -34,13 +34,10 @@ namespace InternetMonitor.models
             : this(DateTime.Now, type, title, url) { }
 
         public static InternetHistoryEntry StartEntry() =>
-            new InternetHistoryEntry(LogType.Start, "Starting Internet History.");
-
-        public static InternetHistoryEntry StopEntry() =>
-            new InternetHistoryEntry(LogType.Stop, "Stopping Internet History.");
+            new InternetHistoryEntry(LogType.Start, "Starting.");
 
         public static InternetHistoryEntry StopEntry(string reason) =>
-            new InternetHistoryEntry(LogType.Stop, $"Stopping Internet History: {reason}");
+            new InternetHistoryEntry(LogType.Stop, reason);
 
         public static InternetHistoryEntry Entry(LogType type, string title, string url) =>
             new InternetHistoryEntry(type, title, url);
