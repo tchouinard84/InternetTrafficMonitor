@@ -1,5 +1,7 @@
-﻿using System;
+﻿using InternetMonitor.models;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 
 namespace InternetMonitor
@@ -11,16 +13,17 @@ namespace InternetMonitor
         private const string ALERT_ITEMS_FILE_PATH = BASE_DIR + @"\alert_words.txt";
         private const string IGNORE_ITEMS_FILE_PATH = BASE_DIR + @"\ignore_items.txt";
 
-        private WebsiteHistory _websiteHistory;
+        private readonly List<string> _websites;
         private List<string> _alertWords;
         private List<string> _ignoreItems;
         private readonly string _filePath;
 
         public InternetLog()
         {
+            if (LoggingOff()) { return; }
             Directory.CreateDirectory(LOG_DIR);
             _filePath = LOG_DIR + "\\" + DateTime.Now.ToString("yyyy-MM-dd") + "_internet_monitor.log";
-            _websiteHistory = new WebsiteHistory();
+            _websites = new List<string>();
             InitializeAlertWords();
             InitializeIgnoreItems();
         }
@@ -30,7 +33,7 @@ namespace InternetMonitor
             _alertWords = new List<string>();
             try
             {
-                var alertContent = File.ReadLines(ALERT_ITEMS_FILE_PATH);
+                var alertContent = File.ReadAllLines(ALERT_ITEMS_FILE_PATH);
                 foreach (var word in alertContent) { _alertWords.Add(word); }
             }
             catch (Exception e)
@@ -44,7 +47,7 @@ namespace InternetMonitor
             _ignoreItems = new List<string>();
             try
             {
-                var ignoreItems = File.ReadLines(IGNORE_ITEMS_FILE_PATH);
+                var ignoreItems = File.ReadAllLines(IGNORE_ITEMS_FILE_PATH);
                 foreach (var item in ignoreItems) { _ignoreItems.Add(item); }
             }
             catch (Exception e)
@@ -55,11 +58,13 @@ namespace InternetMonitor
 
         public void Log(string message)
         {
+            if (LoggingOff()) { return; }
             File.AppendAllText(_filePath, $"{DateTime.Now}{DetermineType(message)} : {message}{Environment.NewLine}");
         }
 
         public void Log(LogType logtype, string message)
         {
+            if (LoggingOff()) { return; }
             File.AppendAllText(_filePath, $"{DateTime.Now}{logtype} : {message}{Environment.NewLine}");
         }
 
@@ -75,7 +80,8 @@ namespace InternetMonitor
 
         public void MaybeAddAndLog(string website)
         {
-            if (_websiteHistory.Contains(website)) { return; }
+            if (LoggingOff()) { return; }
+            if (_websites.Contains(website)) { return; }
 
             foreach (var item in _ignoreItems)
             {
@@ -83,7 +89,9 @@ namespace InternetMonitor
             }
 
             Log(website);
-            _websiteHistory.Add(website);
+            _websites.Add(website);
         }
+
+        public bool LoggingOff() => bool.Parse(ConfigurationManager.AppSettings["loggingOff"]);
     }
 }
