@@ -1,4 +1,7 @@
-﻿namespace InternetMonitor
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace InternetMonitor.models
 {
     public sealed class LogType
     {
@@ -10,23 +13,33 @@
         public static readonly LogType Pause = new LogType("PAUSE");
         public static readonly LogType Continue = new LogType("CONTINUE");
 
-        private readonly string _value;
+        public string Value { get; }
 
         private LogType(string value)
         {
-            _value = value;
+            Value = value;
+        }
+
+        private static IEnumerable<LogType> Values()
+        {
+            return new [] { Info, Alert, Error, Start, Stop, Pause, Continue };
         }
 
         public override string ToString()
         {
-            return $" [{_value}{DetermineSpaces()}]";
+            return $" [{Value}{DetermineSpaces()}]";
         }
 
         private string DetermineSpaces()
         {
-            if (_value.Length == 5) { return string.Empty; }
-            if (_value.Length > 5) { return string.Empty; }
+            if (Value.Length == 5) { return string.Empty; }
+            if (Value.Length > 5) { return string.Empty; }
             return " ";
+        }
+
+        public static LogType FromString(string value)
+        {
+            return Values().FirstOrDefault(lt => lt.Value == value);
         }
     }
 }
