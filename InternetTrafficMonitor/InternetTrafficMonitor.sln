@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITM_Console", "ITM_Console\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetMonitor", "InternetMonitor\InternetMonitor.csproj", "{9BD32C69-A552-465B-933C-BE95E22CA0CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetMonitorTests", "InternetMonitorTests\InternetMonitorTests.csproj", "{2D83A38C-80EC-45F6-8173-064F4029CBE0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{9BD32C69-A552-465B-933C-BE95E22CA0CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BD32C69-A552-465B-933C-BE95E22CA0CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BD32C69-A552-465B-933C-BE95E22CA0CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D83A38C-80EC-45F6-8173-064F4029CBE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D83A38C-80EC-45F6-8173-064F4029CBE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D83A38C-80EC-45F6-8173-064F4029CBE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D83A38C-80EC-45F6-8173-064F4029CBE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

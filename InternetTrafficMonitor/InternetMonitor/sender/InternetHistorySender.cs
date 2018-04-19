@@ -2,6 +2,7 @@
 using InternetMonitor.models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
@@ -37,7 +38,12 @@ namespace InternetMonitor.sender
                 IsBodyHtml = true,
                 Body = MessageBody(history)
             };
-            message.To.Add("tchou84@yahoo.com");//ConfigurationManager.AppSettings["sendHistoryTo"]);
+
+            var to = ConfigurationManager.AppSettings["sendHistoryTo"];
+            var cc = ConfigurationManager.AppSettings["sendHistoryCc"];
+
+            message.To.Add(to);
+            message.CC.Add(cc);
             return message;
         }
 
