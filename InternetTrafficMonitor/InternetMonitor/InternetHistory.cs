@@ -51,15 +51,10 @@ namespace InternetMonitor
         {
             foreach (var alertWord in _alertWords)
             {
-                if (title.Contains(alertWord)) { return LogType.Alert; }
-                if (url.Contains(alertWord)) { return LogType.Alert; }
+                if (title.ToLower().Contains(alertWord)) { return LogType.Alert; }
+                if (url.ToLower().Contains(alertWord)) { return LogType.Alert; }
             }
             return LogType.Info;
-        }
-
-        public void Stop()
-        {
-            _data.Write(InternetHistoryEntry.StopEntry());
         }
 
         public void Stop(string reason)
