@@ -67,6 +67,8 @@ namespace InternetMonitor.sender
             html.Append("<hr>");
             html.Append(BuildGoogleSearchHtmlTable(history));
             html.Append("<hr>");
+            html.Append(BuildYouTubeHtmlTable(history));
+            html.Append("<hr>");
             html.Append(BuildHistoryHtmlTable(history));
             return html.ToString();
         }
@@ -92,7 +94,7 @@ namespace InternetMonitor.sender
             var googleSearches = history.Where(h => h.IsGoogleSearch()).Select(GoogleSearch.ValueOf).ToList();
             if (googleSearches.Count < 1) { return string.Empty; }
 
-            var foo = googleSearches.GroupBy(gs => new { gs.Type, gs.SearchQuery }).Select(gs => new
+            var googleSearchHistory = googleSearches.GroupBy(gs => new { gs.Type, gs.SearchQuery }).Select(gs => new
             {
                 gs.Key.Type,
                 gs.Key.SearchQuery,
@@ -103,7 +105,7 @@ namespace InternetMonitor.sender
             var html = new StringBuilder("<div><h3>Google Searches</h3>"
                                          + "<table><tr><th>Type</th><th>Search Query</th><th>Progressive Clicks</th><th>All Safe Searches</th></tr>");
 
-            foreach (var googleSearch in foo)
+            foreach (var googleSearch in googleSearchHistory)
             {
                 html.Append($"<tr><td>{googleSearch.Type}</td>"
                             + $"<td>{googleSearch.SearchQuery}</td>"
@@ -114,19 +116,56 @@ namespace InternetMonitor.sender
             return html.ToString();
         }
 
+        private static string BuildYouTubeHtmlTable(IEnumerable<InternetHistoryEntry> history)
+        {
+            var youTubes = history.Where(h => h.IsYouTube()).Select(YouTube.ValueOf).ToList();
+            if (youTubes.Count < 1) { return string.Empty; }
+
+            var youTubeHistory = youTubes.GroupBy(ut => new { ut.Type, ut.Title, ut.SearchQuery }).Select(utg => new
+            {
+                utg.Key.Type,
+                utg.Key.Title,
+                utg.Key.SearchQuery
+            });
+
+            var html = new StringBuilder("<div><h3>YouTube</h3>"
+                                         + "<table><tr><th>Type</th><th>Title</th><th>Search Query</th></tr>");
+
+            foreach (var youTube in youTubeHistory)
+            {
+                html.Append($"<tr><td>{youTube.Type}</td>"
+                            + $"<td>{youTube.Title}</td>"
+                            + $"<td>{youTube.SearchQuery}</td></tr>");
+            }
+            html.Append("</table></div>");
+            return html.ToString();
+        }
+
         private static string BuildStartStopHtmlTable(IReadOnlyCollection<IGrouping<LogType, InternetHistoryEntry>> historyTypes)
         {
             var starts = GetEntries(historyTypes, LogType.Start);
             var stops = GetEntries(historyTypes, LogType.Stop);
 
-            var length = starts.Count <= stops.Count ? starts.Count : stops.Count;
+            var startStops = new Dictionary<InternetHistoryEntry, InternetHistoryEntry>();
+
+            for (var i = starts.Count-1; i >= 0; i--)
+            {
+                var start = starts[i];
+                var stop = stops.FirstOrDefault(s => s.TimeStamp >= start.TimeStamp);
+                stops.Remove(stop);
+                startStops.Add(start, stop);
+            }
+
+            var orderedStartStops = startStops.OrderBy(ss => ss.Key.TimeStamp);
 
             var html = new StringBuilder("<div><table><tr><th>Start</th><th>Stop</th><th>Reason</th></tr>");
-            for (var i = 0; i < length; i++)
+            foreach (var startStop in orderedStartStops)
             {
-                html.Append($"<tr><td>{starts[i].TimeStamp.ToShortTimeString()}</td>"
-                            + $"<td>{stops[i].TimeStamp.ToShortTimeString()}</td>"
-                            + $"<td>{stops[i].Title}</td></tr>");
+                var stopTime = startStop.Value == null ? "?" : startStop.Value.TimeStamp.ToShortTimeString();
+                var stopReason = startStop.Value == null ? "?" : startStop.Value.Title;
+                html.Append($"<tr><td>{startStop.Key.TimeStamp.ToShortTimeString()}</td>"
+                            + $"<td>{stopTime}</td>"
+                            + $"<td>{stopReason}</td></tr>");
             }
 
             html.Append("</table></div>");

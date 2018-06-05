@@ -65,5 +65,15 @@ namespace InternetMonitor.models
 
             return match.Groups[3].Value;
         }
+
+        public bool IsYouTube()
+        {
+            if (string.IsNullOrEmpty(Url)) { return false; }
+
+            var match = Regex.Match(Url, @"^((http[s]?|ftp):\/)?\/?([^:\/\s]+)((\/\w+)*\/)");
+            if (!match.Success) { return false; }
+            if (match.Groups[3].Value != "www.youtube.com") { return false; }
+            return true;
+        }
     }
 }
