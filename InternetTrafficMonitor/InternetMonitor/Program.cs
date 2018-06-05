@@ -1,6 +1,4 @@
-﻿using InternetMonitor.data;
-using InternetMonitor.sender;
-using ShipmentTracking.Common.Utils;
+﻿using InternetMonitor.sender;
 using System;
 using System.Threading;
 
@@ -10,9 +8,9 @@ namespace InternetMonitor
     {
         public static void Main(string[] args)
         {
-            new InternetHistoryData().Read(DateTime.Today).Dump();
+            //new InternetHistoryData().Read(DateTime.Today).Dump();
 
-            //RunInternetMonitor();
+            RunInternetMonitor();
         }
 
         private static void RunInternetMonitor()
@@ -40,7 +38,7 @@ namespace InternetMonitor
 
                 if (input == InputCommand.SendAndExit.Value)
                 {
-                    monitor.Stop();
+                    monitor.Stop("End of Day");
                     SendEmail();
                     break;
                 }

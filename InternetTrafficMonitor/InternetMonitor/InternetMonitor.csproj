@@ -66,6 +66,8 @@
     <Compile Include="models\GoogleSearch.cs" />
     <Compile Include="models\GoogleSearchType.cs" />
     <Compile Include="models\LogTypeConverter.cs" />
+    <Compile Include="models\YouTube.cs" />
+    <Compile Include="models\YouTubeType.cs" />
     <Compile Include="sender\InternetHistorySender.cs" />
     <Compile Include="InternetLog.cs" />
     <Compile Include="InternetMonitor.cs" />
