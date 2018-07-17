@@ -1,6 +1,7 @@
 ﻿using InternetMonitor.sender;
 using System;
 using System.Threading;
+using Console = System.Console;
 
 namespace InternetMonitor
 {
@@ -16,11 +17,12 @@ namespace InternetMonitor
         private static void RunInternetMonitor()
         {
             var monitor = new InternetMonitor();
+            var startComment = GetUserInput("Please provide a comment for startup.");
 
             new Thread(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
-                monitor.Start();
+                monitor.Start(startComment);
             }).Start();
 
             do
@@ -42,6 +44,35 @@ namespace InternetMonitor
                     SendEmail();
                     break;
                 }
+            }
+            while (true);
+        }
+
+        private static string GetUserInput(string message)
+        {
+            do
+            {
+                Console.WriteLine(message);
+                var userInput = Console.ReadLine();
+                if (IsCorrect(userInput)) { return userInput; }
+            }
+            while (true);
+        }
+
+        private static bool IsCorrect(string userInput)
+        {
+            if (string.IsNullOrEmpty(userInput)) { return false; }
+
+            Console.WriteLine($"You entered: '{userInput}'");
+            Console.WriteLine("Is this correct? (y)(n)");
+
+            do
+            {
+                var correct = Console.ReadLine();
+                if (correct == "y") { return true; }
+                if (correct == "n") { return false; }
+
+                Console.WriteLine("Incorrect input. Please enter (y) or (n).");
             }
             while (true);
         }

@@ -33,8 +33,8 @@ namespace InternetMonitor.models
         private InternetHistoryEntry(LogType type, string title, string url)
             : this(DateTime.Now, type, title, url) { }
 
-        public static InternetHistoryEntry StartEntry() =>
-            new InternetHistoryEntry(LogType.Start, "Starting.");
+        public static InternetHistoryEntry StartEntry(string comment) =>
+            new InternetHistoryEntry(LogType.Start, comment);
 
         public static InternetHistoryEntry StopEntry(string reason) =>
             new InternetHistoryEntry(LogType.Stop, reason);
