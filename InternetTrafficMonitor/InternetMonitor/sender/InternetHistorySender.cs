@@ -158,12 +158,13 @@ namespace InternetMonitor.sender
 
             var orderedStartStops = startStops.OrderBy(ss => ss.Key.TimeStamp);
 
-            var html = new StringBuilder("<div><table><tr><th>Start</th><th>Stop</th><th>Reason</th></tr>");
+            var html = new StringBuilder("<div><table><tr><th>Start</th><th>Comment</th><th>Stop</th><th>Reason</th></tr>");
             foreach (var startStop in orderedStartStops)
             {
                 var stopTime = startStop.Value == null ? "?" : startStop.Value.TimeStamp.ToShortTimeString();
                 var stopReason = startStop.Value == null ? "?" : startStop.Value.Title;
                 html.Append($"<tr><td>{startStop.Key.TimeStamp.ToShortTimeString()}</td>"
+                            + $"<td>{startStop.Key.Title}</td>"
                             + $"<td>{stopTime}</td>"
                             + $"<td>{stopReason}</td></tr>");
             }
