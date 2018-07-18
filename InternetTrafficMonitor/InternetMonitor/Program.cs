@@ -9,20 +9,17 @@ namespace InternetMonitor
     {
         public static void Main(string[] args)
         {
-            //new InternetHistoryData().Read(DateTime.Today).Dump();
-
             RunInternetMonitor();
         }
 
         private static void RunInternetMonitor()
         {
             var monitor = new InternetMonitor();
-            var startComment = GetUserInput("Please provide a comment for startup.");
 
             new Thread(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
-                monitor.Start(startComment);
+                monitor.Start(GetUserInput("Please provide a comment for startup."));
             }).Start();
 
             do
@@ -34,13 +31,13 @@ namespace InternetMonitor
 
                 if (input == InputCommand.Exit.Value)
                 {
-                    monitor.Stop(GetReason());
+                    monitor.Stop(GetUserInput("Please enter a reason."));
                     break;
                 }
 
                 if (input == InputCommand.SendAndExit.Value)
                 {
-                    monitor.Stop("End of Day");
+                    monitor.Stop(GetUserInput("Please provide a comment."));
                     SendEmail();
                     break;
                 }
@@ -81,14 +78,6 @@ namespace InternetMonitor
         {
             var sender = new InternetHistorySender();
             sender.Send(DateTime.Today);
-        }
-
-        private static string GetReason()
-        {
-            Console.WriteLine($"Please enter a reason: ");
-            var reason = Console.ReadLine();
-            if (string.IsNullOrEmpty(reason)) { return GetReason(); }
-            return reason;
         }
 
         private class InputCommand

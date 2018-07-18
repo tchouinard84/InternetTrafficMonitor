@@ -79,7 +79,6 @@ namespace InternetMonitor
             var title = process.MainWindowTitle;
 
             if (title == string.Empty) { return; }
-            //if (title.Equals(_currentTitle)) { return; }
 
             _currentTitle = title;
 
