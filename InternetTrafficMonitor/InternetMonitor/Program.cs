@@ -16,10 +16,12 @@ namespace InternetMonitor
         {
             var monitor = new InternetMonitor();
 
+            var startComment = GetUserInput("Please provide a comment for startup.");
+
             new Thread(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
-                monitor.Start(GetUserInput("Please provide a comment for startup."));
+                monitor.Start(startComment);
             }).Start();
 
             do
