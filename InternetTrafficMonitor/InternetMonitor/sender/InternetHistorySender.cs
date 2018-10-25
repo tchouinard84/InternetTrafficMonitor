@@ -43,7 +43,8 @@ namespace InternetMonitor.sender
             var cc = ConfigurationManager.AppSettings["sendHistoryCc"];
 
             message.To.Add(to);
-            message.CC.Add(cc);
+            if (!string.IsNullOrEmpty(cc)) { message.CC.Add(cc); }
+
             return message;
         }
 
@@ -61,14 +62,11 @@ namespace InternetMonitor.sender
 
             var historyTypes = history.GroupBy(h => h.Type).ToList();
 
-            html.Append(BuildAlertsHtmlTable(historyTypes));
-            html.Append("<hr>");
+            html.Append(MaybeBuildAlertsHtmlTable(historyTypes));
             html.Append(BuildStartStopHtmlTable(historyTypes));
             html.Append("<hr>");
-            html.Append(BuildGoogleSearchHtmlTable(history));
-            html.Append("<hr>");
-            html.Append(BuildYouTubeHtmlTable(history));
-            html.Append("<hr>");
+            html.Append(MaybeBuildGoogleSearchHtmlTable(history));
+            html.Append(MaybeBuildYouTubeHtmlTable(history));
             html.Append(BuildHistoryHtmlTable(history));
             return html.ToString();
         }
@@ -80,6 +78,8 @@ namespace InternetMonitor.sender
 
             foreach (var entry in history)
             {
+                if (entry.Type == LogType.Start || entry.Type == LogType.Stop) { continue; }
+
                 html.Append($"<tr><td>{entry.TimeStamp.ToShortTimeString()}</td>"
                             + $"<td>{entry.Type}</td>"
                             + $"<td>{entry.Title}</td>"
@@ -89,7 +89,7 @@ namespace InternetMonitor.sender
             return html.ToString();
         }
 
-        private static string BuildGoogleSearchHtmlTable(IEnumerable<InternetHistoryEntry> history)
+        private static string MaybeBuildGoogleSearchHtmlTable(IEnumerable<InternetHistoryEntry> history)
         {
             var googleSearches = history.Where(h => h.IsGoogleSearch()).Select(GoogleSearch.ValueOf).ToList();
             if (googleSearches.Count < 1) { return string.Empty; }
@@ -112,11 +112,11 @@ namespace InternetMonitor.sender
                             + $"<td>{googleSearch.ProgressiveClicks}</td>"
                             + $"<td>{googleSearch.AllSafe}</td></tr>");
             }
-            html.Append("</table></div>");
+            html.Append("</table></div><hr>");
             return html.ToString();
         }
 
-        private static string BuildYouTubeHtmlTable(IEnumerable<InternetHistoryEntry> history)
+        private static string MaybeBuildYouTubeHtmlTable(IEnumerable<InternetHistoryEntry> history)
         {
             var youTubes = history.Where(h => h.IsYouTube()).Select(YouTube.ValueOf).ToList();
             if (youTubes.Count < 1) { return string.Empty; }
@@ -137,7 +137,7 @@ namespace InternetMonitor.sender
                             + $"<td>{youTube.Title}</td>"
                             + $"<td>{youTube.SearchQuery}</td></tr>");
             }
-            html.Append("</table></div>");
+            html.Append("</table></div><hr>");
             return html.ToString();
         }
 
@@ -158,12 +158,13 @@ namespace InternetMonitor.sender
 
             var orderedStartStops = startStops.OrderBy(ss => ss.Key.TimeStamp);
 
-            var html = new StringBuilder("<div><table><tr><th>Start</th><th>Stop</th><th>Reason</th></tr>");
+            var html = new StringBuilder("<div><table><tr><th>Start</th><th>Comment</th><th>Stop</th><th>Reason</th></tr>");
             foreach (var startStop in orderedStartStops)
             {
                 var stopTime = startStop.Value == null ? "?" : startStop.Value.TimeStamp.ToShortTimeString();
                 var stopReason = startStop.Value == null ? "?" : startStop.Value.Title;
                 html.Append($"<tr><td>{startStop.Key.TimeStamp.ToShortTimeString()}</td>"
+                            + $"<td>{BuildStartComment(startStop.Key.Title)}</td>"
                             + $"<td>{stopTime}</td>"
                             + $"<td>{stopReason}</td></tr>");
             }
@@ -172,19 +173,27 @@ namespace InternetMonitor.sender
             return html.ToString();
         }
 
-        private static string BuildAlertsHtmlTable(IEnumerable<IGrouping<LogType, InternetHistoryEntry>> historyTypes)
+        private static string BuildStartComment(string startComment)
         {
+            return $"<pre>{startComment}</pre>";
+        }
+
+        private static string MaybeBuildAlertsHtmlTable(IEnumerable<IGrouping<LogType, InternetHistoryEntry>> historyTypes)
+        {
+            var alertEntries = GetEntries(historyTypes, LogType.Alert);
+            if (alertEntries.Count <= 0) { return string.Empty; }
+
             var html = new StringBuilder("<div><h2>ALERTS</h2>"
                                   + "<table><tr><th>Time</th><th>Title</th><th>Url</th></tr>");
 
-            foreach (var alert in GetEntries(historyTypes, LogType.Alert))
+            foreach (var alert in alertEntries)
             {
                 html.Append($"<tr><td>{alert.TimeStamp.ToShortTimeString()}</td>"
                             + $"<td>{alert.Title}</td>"
                             + $"<td><a href=\"{alert.Url}\" target=\"_blank\">{alert.GetDomainName()}</a></td></tr>");
             }
 
-            html.Append("</table></div>");
+            html.Append("</table></div><hr>");
             return html.ToString();
         }
 

@@ -62,10 +62,10 @@ namespace InternetMonitor
             _data.Write(InternetHistoryEntry.StopEntry(reason));
         }
 
-        public void Start()
+        public void Start(string comment)
         {
             MaybeLoadCurrentHistoryData();
-            _data.Write(InternetHistoryEntry.StartEntry());
+            _data.Write(InternetHistoryEntry.StartEntry(comment));
         }
 
         private void MaybeLoadCurrentHistoryData()

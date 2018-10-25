@@ -34,9 +34,9 @@ namespace InternetMonitor
             InitializeIgnoreItems();
         }
 
-        public void Start()
+        public void Start(string comment)
         {
-            _history.Start();
+            _history.Start(comment);
             _running = true;
             Run();
         }
@@ -79,7 +79,6 @@ namespace InternetMonitor
             var title = process.MainWindowTitle;
 
             if (title == string.Empty) { return; }
-            //if (title.Equals(_currentTitle)) { return; }
 
             _currentTitle = title;
 
