@@ -1,5 +1,6 @@
 ﻿using InternetMonitor.sender;
 using System;
+using System.Text;
 using System.Threading;
 using Console = System.Console;
 
@@ -16,12 +17,23 @@ namespace InternetMonitor
         {
             var monitor = new InternetMonitor();
 
-            var startComment = GetUserInput("Please provide a comment for startup.");
+            var startComment = new StringBuilder();
+
+            var startPrompt = "Did you start the Internet Monitor first thing?";
+            var startPromptResponse = GetUserInput(startPrompt + " (yes/no)");
+
+            startComment.AppendLine(startPrompt + " " + startPromptResponse);
+
+            if (startPromptResponse.ToLower().Contains("no"))
+            {
+                var whyResponse = GetUserInput("Why?");
+                startComment.AppendLine($"Why? {whyResponse}");
+            }
 
             new Thread(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
-                monitor.Start(startComment);
+                monitor.Start(startComment.ToString());
             }).Start();
 
             do
