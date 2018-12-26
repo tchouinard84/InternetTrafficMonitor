@@ -84,7 +84,6 @@
     <Compile Include="models\YouTube.cs" />
     <Compile Include="models\YouTubeType.cs" />
     <Compile Include="sender\InternetHistorySender.cs" />
-    <Compile Include="InternetLog.cs" />
     <Compile Include="InternetMonitor.cs" />
     <Compile Include="models\LogType.cs" />
     <Compile Include="models\InternetHistoryEntry.cs" />
@@ -92,6 +91,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="InternetHistory.cs" />
     <Compile Include="url\ChromeUrlRetriever.cs" />
+    <Compile Include="url\FirefoxUrlRetriever.cs" />
+    <Compile Include="url\InternetExplorerUrlRetriever.cs" />
+    <Compile Include="url\IUrlRetriever.cs" />
+    <Compile Include="url\UrlRetriever.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Automation;
 
-namespace InternetMonitorApp.url
+namespace InternetMonitor.url
 {
     public abstract class UrlRetriever : IUrlRetriever
     {
@@ -11,7 +11,6 @@ namespace InternetMonitorApp.url
         public string GetUrl(Process process)
         {
             var element = GetElement(process);
-            if (element == null) { return null; }
             return GetUrl(element);
         }
 

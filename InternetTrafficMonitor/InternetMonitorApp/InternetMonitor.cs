@@ -16,18 +16,18 @@ namespace InternetMonitorApp
         private string _currentUrl;
         private bool _running;
 
-        private readonly IUrlRetriever _chromeUrlRetriever;
-        private readonly IUrlRetriever _ieUrlRetriever;
-        private readonly IUrlRetriever _firefoxUrlRetriever;
+        private readonly IEnumerable<IUrlRetriever> _urlRetrievers;
 
-        public InternetMonitor(IOptions<AppConfig> configOptions, IInternetHistory history,
-            IUrlRetriever chromeUrlRetriever, IUrlRetriever ieUrlRetriever, IUrlRetriever firefoxUrlRetriever)
+        public InternetMonitor(IOptions<AppConfig> configOptions, IInternetHistory history)
         {
             _config = configOptions.Value;
             _history = history;
-            _chromeUrlRetriever = chromeUrlRetriever;
-            _ieUrlRetriever = ieUrlRetriever;
-            _firefoxUrlRetriever = firefoxUrlRetriever;
+            _urlRetrievers = new List<IUrlRetriever>
+            {
+                new ChromeUrlRetriever(),
+                new InternetExplorerUrlRetriever(),
+                new FirefoxUrlRetriever()
+            };
             _currentUrl = "";
 
             InitializeIgnoreItems();
@@ -51,36 +51,19 @@ namespace InternetMonitorApp
             while (_running)
             {
                 Thread.Sleep(750);
-                CheckChromeProcesses();
-                CheckInternetExplorerProcesses();
-                CheckFirefoxProcesses();
+                CheckProcesses();
             }
         }
 
-        public void CheckChromeProcesses()
+        public void CheckProcesses()
         {
-            foreach (var process in Process.GetProcessesByName("chrome"))
+            foreach (var urlRetriever in _urlRetrievers)
             {
-                var url = _chromeUrlRetriever.GetUrl(process);
-                MaybeAddInternetHistoryEntry(url, process.MainWindowTitle);
-            }
-        }
-
-        public void CheckInternetExplorerProcesses()
-        {
-            foreach (var process in Process.GetProcessesByName("iexplore"))
-            {
-                var url = _ieUrlRetriever.GetUrl(process);
-                MaybeAddInternetHistoryEntry(url, process.MainWindowTitle);
-            }
-        }
-
-        public void CheckFirefoxProcesses()
-        {
-            foreach (var process in Process.GetProcessesByName("firefox"))
-            {
-                var url = _firefoxUrlRetriever.GetUrl(process);
-                MaybeAddInternetHistoryEntry(url, process.MainWindowTitle);
+                foreach (var process in Process.GetProcessesByName(urlRetriever.Browser))
+                {
+                    var url = urlRetriever.GetUrl(process);
+                    MaybeAddInternetHistoryEntry(url, process.MainWindowTitle);
+                }
             }
         }
 

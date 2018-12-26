@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace InternetMonitorApp.url
+namespace InternetMonitor.url
 {
     public interface IUrlRetriever
     {

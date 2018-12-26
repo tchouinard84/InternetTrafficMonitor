@@ -2,10 +2,10 @@
 using InternetMonitor.models;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
+using static System.Configuration.ConfigurationManager;
 
 namespace InternetMonitor.sender
 {
@@ -29,26 +29,40 @@ namespace InternetMonitor.sender
             client.Send(message);
         }
 
-        private MailMessage BuildMailMessage(IReadOnlyCollection<InternetHistoryEntry> history, DateTime date)
+        private static MailMessage BuildMailMessage(IReadOnlyCollection<InternetHistoryEntry> history, DateTime date)
         {
-            var message = new MailMessage
-            {
-                From = new MailAddress("Timothy.Chouinard@emp-corp.com"),
-                Subject = $"Internet History for {date.ToShortDateString()}",
-                IsBodyHtml = true,
-                Body = MessageBody(history)
-            };
+            var isTest = AppSettings["isTest"];
+            if (isTest == "true") { return MailMessage(AppSettings["developerEmail"], MessageBody(history), date); }
 
-            var to = ConfigurationManager.AppSettings["sendHistoryTo"];
-            var cc = ConfigurationManager.AppSettings["sendHistoryCc"];
-
-            message.To.Add(to);
-            if (!string.IsNullOrEmpty(cc)) { message.CC.Add(cc); }
+            var message = MailMessage(AppSettings["sendTo"], MessageBody(history), date);
+            MaybeAddCc(message);
+            MaybeAddBcc(message);
 
             return message;
         }
 
-        private string MessageBody(IReadOnlyCollection<InternetHistoryEntry> history)
+        private static MailMessage MailMessage(string emailTo, string messageBody, DateTime date)
+        {
+            var subject = string.Format(AppSettings["subject"], date.ToShortDateString());
+
+            return new MailMessage(AppSettings["from"], emailTo, subject, messageBody) { IsBodyHtml = true };
+        }
+
+        private static void MaybeAddCc(MailMessage message)
+        {
+            var cc = AppSettings["sendCc"];
+            if (string.IsNullOrEmpty(cc)) { return; }
+            message.CC.Add(cc);
+        }
+
+        private static void MaybeAddBcc(MailMessage message)
+        {
+            var bcc = AppSettings["sendBcc"];
+            if (string.IsNullOrEmpty(bcc)) { return; }
+            message.Bcc.Add(bcc);
+        }
+
+        private static string MessageBody(IReadOnlyCollection<InternetHistoryEntry> history)
         {
             return $"<html><head>{HtmlStyle()}</head><body><div class=\"container\">"
                    + $"{GenerateHistoryHtml(history)}"

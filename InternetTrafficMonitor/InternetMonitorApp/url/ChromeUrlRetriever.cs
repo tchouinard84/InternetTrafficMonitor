@@ -4,6 +4,8 @@ namespace InternetMonitorApp.url
 {
     public class ChromeUrlRetriever : UrlRetriever
     {
+        public override string Browser => "chrome";
+
         protected override string GetUrl(AutomationElement element)
         {
             if (element == null) { return null; }

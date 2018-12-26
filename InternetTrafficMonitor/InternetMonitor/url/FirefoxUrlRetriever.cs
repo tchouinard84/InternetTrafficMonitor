@@ -1,6 +1,6 @@
 ﻿using System.Windows.Automation;
 
-namespace InternetMonitorApp.url
+namespace InternetMonitor.url
 {
     public class FirefoxUrlRetriever : UrlRetriever
     {

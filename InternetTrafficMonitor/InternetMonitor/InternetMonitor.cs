@@ -1,7 +1,5 @@
-﻿using InternetMonitor.models;
-using InternetMonitor.url;
+﻿using InternetMonitor.url;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
@@ -15,11 +13,11 @@ namespace InternetMonitor
         private const string IGNORE_ITEMS_FILE_PATH = BASE_DIR + @"\ignore_items.txt";
 
         private readonly InternetHistory _history;
-        private readonly InternetLog _internetLog;
         private List<string> _ignoreItems;
-        private string _currentTitle;
         private string _currentUrl;
         private bool _running;
+
+        private readonly IEnumerable<IUrlRetriever> _urlRetrievers;
 
         private static IEnumerable<string> AlertWords => File.ReadAllLines(ALERT_ITEMS_FILE_PATH);
 
@@ -27,8 +25,12 @@ namespace InternetMonitor
         {
 
             _history = new InternetHistory(AlertWords);
-            _internetLog = new InternetLog();
-            _currentTitle = "";
+            _urlRetrievers = new List<IUrlRetriever>
+            {
+                new ChromeUrlRetriever(),
+                new InternetExplorerUrlRetriever(),
+                new FirefoxUrlRetriever()
+            };
             _currentUrl = "";
 
             InitializeIgnoreItems();
@@ -45,42 +47,37 @@ namespace InternetMonitor
         {
             _history.Stop(reason);
             _running = false;
-            _internetLog.Log(LogType.Stop, $"Stopping: {reason}");
         }
 
         private void Run()
         {
-            _internetLog.Log(LogType.Start, "Start Log.");
-
             while (_running)
             {
-                Thread.Sleep(1000);
-                CheckChromeProcess();
+                Thread.Sleep(750);
+                CheckProcesses();
             }
         }
 
-        public void CheckChromeProcess()
+        public void CheckProcesses()
         {
-            foreach (var process in Process.GetProcessesByName("chrome"))
+            foreach (var urlRetriever in _urlRetrievers)
             {
-                MaybeAddAndLogTab(process);
-                MaybeAddInternetHistoryEntry(process);
+                foreach (var process in Process.GetProcessesByName(urlRetriever.Browser))
+                {
+                    var url = urlRetriever.GetUrl(process);
+                    MaybeAddInternetHistoryEntry(url, process.MainWindowTitle);
+                }
             }
         }
 
-        private void MaybeAddInternetHistoryEntry(Process process)
+        private void MaybeAddInternetHistoryEntry(string url, string title)
         {
-            var url = ChromeUrlRetriever.GetUrl(process);
             if (url == null) { return; }
             if (url.Equals(_currentUrl)) { return; }
 
             _currentUrl = url;
 
-            var title = process.MainWindowTitle;
-
             if (title == string.Empty) { return; }
-
-            _currentTitle = title;
 
             foreach (var item in _ignoreItems)
             {
@@ -88,19 +85,6 @@ namespace InternetMonitor
             }
 
             _history.MaybeAddHistory(title, url);
-        }
-
-        private void MaybeAddAndLogTab(Process process)
-        {
-            if (bool.Parse(ConfigurationManager.AppSettings["loggingOff"])) { return; }
-
-            var tab = process.MainWindowTitle;
-
-            if (tab == string.Empty) { return; }
-            if (tab == _currentTitle) { return; }
-
-            _currentTitle = tab;
-            _internetLog.MaybeAddAndLog(_currentTitle);
         }
 
         private void InitializeIgnoreItems()

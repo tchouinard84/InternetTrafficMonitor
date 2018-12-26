@@ -30,6 +30,13 @@ namespace InternetMonitor.data
 
         public void Write(InternetHistoryEntry entry)
         {
+            var isTest = ConfigurationManager.AppSettings["isTest"];
+            if (isTest == "true")
+            {
+                File.AppendAllText(_filePath, JsonConvert.SerializeObject(entry) + Environment.NewLine);
+                return;
+            }
+
             var ms = new MemoryStream();
             using (var writer = new BsonDataWriter(ms))
             {
@@ -38,7 +45,6 @@ namespace InternetMonitor.data
             }
 
             File.AppendAllText(_filePath, Convert.ToBase64String(ms.ToArray()) + Environment.NewLine);
-            //File.AppendAllText(_filePath, JsonConvert.SerializeObject(entry) + Environment.NewLine);
         }
 
         public IReadOnlyCollection<InternetHistoryEntry> Read()
@@ -60,6 +66,9 @@ namespace InternetMonitor.data
 
         private static InternetHistoryEntry Deserialize(string binaryEntry)
         {
+            var isTest = ConfigurationManager.AppSettings["isTest"];
+            if (isTest == "true") { return JsonConvert.DeserializeObject<InternetHistoryEntry>(binaryEntry); }
+
             var json = Convert.FromBase64String(binaryEntry);
             var ms = new MemoryStream(json);
 
@@ -67,7 +76,6 @@ namespace InternetMonitor.data
             {
                 return new JsonSerializer().Deserialize<InternetHistoryEntry>(reader);
             }
-            //return JsonConvert.DeserializeObject<InternetHistoryEntry>(binaryEntry);
         }
     }
 }
