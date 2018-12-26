@@ -11,6 +11,7 @@ namespace InternetMonitor.url
         public string GetUrl(Process process)
         {
             var element = GetElement(process);
+            if (element == null) { return null; }
             return GetUrl(element);
         }
 
