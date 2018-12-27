@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetMonitorService", "I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetMonitor.SendNotificationApp", "InternetMonitor.SendNotificationApp\InternetMonitor.SendNotificationApp.csproj", "{32E504E6-B547-4C42-84FD-7BBA2CBF29A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetMonitor.MyService", "InternetMonitor.MyService\InternetMonitor.MyService.csproj", "{5D64AC34-6FE2-40AD-8D56-5127D9928D4F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InternetMonitor.Core", "InternetMonitor.Core\InternetMonitor.Core.csproj", "{02211E9F-0187-4555-A5F4-1FFA05CC66A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{32E504E6-B547-4C42-84FD-7BBA2CBF29A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32E504E6-B547-4C42-84FD-7BBA2CBF29A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32E504E6-B547-4C42-84FD-7BBA2CBF29A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D64AC34-6FE2-40AD-8D56-5127D9928D4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D64AC34-6FE2-40AD-8D56-5127D9928D4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D64AC34-6FE2-40AD-8D56-5127D9928D4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D64AC34-6FE2-40AD-8D56-5127D9928D4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02211E9F-0187-4555-A5F4-1FFA05CC66A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02211E9F-0187-4555-A5F4-1FFA05CC66A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02211E9F-0187-4555-A5F4-1FFA05CC66A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02211E9F-0187-4555-A5F4-1FFA05CC66A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
