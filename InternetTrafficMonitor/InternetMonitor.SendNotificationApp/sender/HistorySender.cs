@@ -1,7 +1,6 @@
-﻿using InternetMonitor.SendNotificationApp.config;
-using InternetMonitor.SendNotificationApp.data;
-using InternetMonitor.SendNotificationApp.models;
-using Microsoft.Extensions.Options;
+﻿using InternetMonitor.Framework.Core.data;
+using InternetMonitor.Framework.Core.models;
+using InternetMonitor.SendNotificationApp.config;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +14,10 @@ namespace InternetMonitor.SendNotificationApp.sender
         private readonly EmailConfig _config;
         private readonly IHistoryData _historyData;
 
-        public HistorySender(IOptions<EmailConfig> emailConfigOptions, IHistoryData historyData)
+        public HistorySender()
         {
-            _config = emailConfigOptions.Value;
-            _historyData = historyData;
+            _config = new EmailConfig();
+            _historyData = new HistoryData();
         }
 
         public void MaybeSend(DateTime date)

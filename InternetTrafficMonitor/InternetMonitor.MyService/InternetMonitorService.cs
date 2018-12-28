@@ -1,4 +1,4 @@
-﻿using InternetMonitor.Core;
+﻿using InternetMonitor.Framework.Core;
 using System.ServiceProcess;
 using System.Timers;
 
@@ -6,7 +6,7 @@ namespace InternetMonitor.MyService
 {
     public partial class InternetMonitorService : ServiceBase
     {
-        private readonly Timer _timer = new Timer();
+        private Timer _timer;
 
         public InternetMonitorService()
         {
@@ -18,14 +18,14 @@ namespace InternetMonitor.MyService
             var history = new InternetHistory();
             history.Start("Starting.");
 
-            _timer.Interval = 1000;
+            _timer = new Timer { Interval = 1000 };
             _timer.Elapsed += OnTimer;
             _timer.Start();
         }
 
         private static void OnTimer(object sender, ElapsedEventArgs e)
         {
-            var monitor = new Core.InternetMonitor();
+            var monitor = new Framework.Core.InternetMonitor();
             monitor.CheckProcesses();
         }
 
