@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITM_Console", "ITM_Console\ITM_Console.csproj", "{472955C1-88A2-4E73-920B-675BD0B6257A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetMonitor.MyService", "InternetMonitor.MyService\InternetMonitor.MyService.csproj", "{5D64AC34-6FE2-40AD-8D56-5127D9928D4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetMonitor", "InternetMonitor\InternetMonitor.csproj", "{9BD32C69-A552-465B-933C-BE95E22CA0CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetMonitor.Framework.Core", "InternetMonitor.Framework.Core\InternetMonitor.Framework.Core.csproj", "{A87DB418-EF12-46D2-BAD9-C4BF880F4003}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetMonitorTests", "InternetMonitorTests\InternetMonitorTests.csproj", "{2D83A38C-80EC-45F6-8173-064F4029CBE0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetMonitor.SendNotificationApp", "InternetMonitor.SendNotificationApp\InternetMonitor.SendNotificationApp.csproj", "{6C9DAE1A-9597-41DC-A3D2-F3B1920731C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetMonitor.App", "InternetMonitor.App\InternetMonitor.App.csproj", "{24DC4F80-3C17-4FD4-904D-85B0B1A329C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +17,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{472955C1-88A2-4E73-920B-675BD0B6257A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{472955C1-88A2-4E73-920B-675BD0B6257A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{472955C1-88A2-4E73-920B-675BD0B6257A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{472955C1-88A2-4E73-920B-675BD0B6257A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9BD32C69-A552-465B-933C-BE95E22CA0CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9BD32C69-A552-465B-933C-BE95E22CA0CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9BD32C69-A552-465B-933C-BE95E22CA0CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9BD32C69-A552-465B-933C-BE95E22CA0CE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2D83A38C-80EC-45F6-8173-064F4029CBE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D83A38C-80EC-45F6-8173-064F4029CBE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D83A38C-80EC-45F6-8173-064F4029CBE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D83A38C-80EC-45F6-8173-064F4029CBE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D64AC34-6FE2-40AD-8D56-5127D9928D4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D64AC34-6FE2-40AD-8D56-5127D9928D4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D64AC34-6FE2-40AD-8D56-5127D9928D4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D64AC34-6FE2-40AD-8D56-5127D9928D4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A87DB418-EF12-46D2-BAD9-C4BF880F4003}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A87DB418-EF12-46D2-BAD9-C4BF880F4003}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A87DB418-EF12-46D2-BAD9-C4BF880F4003}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A87DB418-EF12-46D2-BAD9-C4BF880F4003}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C9DAE1A-9597-41DC-A3D2-F3B1920731C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C9DAE1A-9597-41DC-A3D2-F3B1920731C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C9DAE1A-9597-41DC-A3D2-F3B1920731C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C9DAE1A-9597-41DC-A3D2-F3B1920731C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24DC4F80-3C17-4FD4-904D-85B0B1A329C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24DC4F80-3C17-4FD4-904D-85B0B1A329C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24DC4F80-3C17-4FD4-904D-85B0B1A329C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24DC4F80-3C17-4FD4-904D-85B0B1A329C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
