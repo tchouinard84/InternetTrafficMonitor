@@ -1,4 +1,5 @@
 ﻿using InternetMonitor.Framework.Core;
+using NLog;
 using System;
 using System.Text;
 using System.Timers;
@@ -8,6 +9,8 @@ namespace InternetMonitor.TestApp
 {
     public class Program
     {
+        private static readonly ILogger log = LogManager.GetCurrentClassLogger();
+
         public static void Main(string[] args)
         {
             var startComment = new StringBuilder();
@@ -27,22 +30,42 @@ namespace InternetMonitor.TestApp
 
             do
             {
-                Console.WriteLine("Type 'exit' to exit.");
-                var input = Console.ReadLine();
+                try
+                {
+                    Console.WriteLine("Type 'comment' or 'exit'.");
+                    var input = Console.ReadLine();
 
-                if (string.IsNullOrEmpty(input)) { continue; }
-                if (input != "exit") { continue; }
+                    if (string.IsNullOrEmpty(input)) { continue; }
 
-                history.Stop(GetUserInput("Please enter a reason."));
-                break;
+                    if (input == "comment")
+                    {
+                        history.WriteEntry(GetUserInput("Enter comments."), string.Empty);
+                        continue;
+                    }
+                    if (input != "exit") { continue; }
+
+                    history.Stop(GetUserInput("Please enter a reason."));
+                    break;
+                }
+                catch (Exception e)
+                {
+                    log.Error(e, "Unknown Error.");
+                }
             }
             while (true);
         }
 
         private static void OnTimer(object sender, ElapsedEventArgs e)
         {
-            var monitor = new Framework.Core.InternetMonitor();
-            monitor.CheckProcesses();
+            try
+            {
+                var monitor = new Framework.Core.InternetMonitor();
+                monitor.CheckProcesses();
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex, "Error Checking Processes.");
+            }
         }
 
         private static string GetUserInput(string message)

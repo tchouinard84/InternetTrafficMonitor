@@ -5,11 +5,11 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetMonitor.MyService", "InternetMonitor.MyService\InternetMonitor.MyService.csproj", "{5D64AC34-6FE2-40AD-8D56-5127D9928D4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetMonitor.TestApp", "InternetMonitor.TestApp\InternetMonitor.TestApp.csproj", "{24DC4F80-3C17-4FD4-904D-85B0B1A329C5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetMonitor.Framework.Core", "InternetMonitor.Framework.Core\InternetMonitor.Framework.Core.csproj", "{A87DB418-EF12-46D2-BAD9-C4BF880F4003}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetMonitor.SendNotificationApp", "InternetMonitor.SendNotificationApp\InternetMonitor.SendNotificationApp.csproj", "{6C9DAE1A-9597-41DC-A3D2-F3B1920731C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetMonitor.App", "InternetMonitor.App\InternetMonitor.App.csproj", "{24DC4F80-3C17-4FD4-904D-85B0B1A329C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		{5D64AC34-6FE2-40AD-8D56-5127D9928D4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D64AC34-6FE2-40AD-8D56-5127D9928D4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D64AC34-6FE2-40AD-8D56-5127D9928D4F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{24DC4F80-3C17-4FD4-904D-85B0B1A329C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{24DC4F80-3C17-4FD4-904D-85B0B1A329C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{24DC4F80-3C17-4FD4-904D-85B0B1A329C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{24DC4F80-3C17-4FD4-904D-85B0B1A329C5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A87DB418-EF12-46D2-BAD9-C4BF880F4003}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A87DB418-EF12-46D2-BAD9-C4BF880F4003}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A87DB418-EF12-46D2-BAD9-C4BF880F4003}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{6C9DAE1A-9597-41DC-A3D2-F3B1920731C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C9DAE1A-9597-41DC-A3D2-F3B1920731C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C9DAE1A-9597-41DC-A3D2-F3B1920731C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24DC4F80-3C17-4FD4-904D-85B0B1A329C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24DC4F80-3C17-4FD4-904D-85B0B1A329C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24DC4F80-3C17-4FD4-904D-85B0B1A329C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24DC4F80-3C17-4FD4-904D-85B0B1A329C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

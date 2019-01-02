@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{24DC4F80-3C17-4FD4-904D-85B0B1A329C5}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>InternetMonitor.TestApp</RootNamespace>
-    <AssemblyName>InternetMonitor.TestApp</AssemblyName>
+    <RootNamespace>InternetMonitor.App</RootNamespace>
+    <AssemblyName>InternetMonitor.App</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -31,6 +31,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>crucifix_512_C26_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
@@ -66,6 +69,9 @@
       <Project>{a87db418-ef12-46d2-bad9-c4bf880f4003}</Project>
       <Name>InternetMonitor.Framework.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="crucifix_512_C26_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
