@@ -73,6 +73,7 @@
     <Compile Include="IInternetHistory.cs" />
     <Compile Include="IInternetMonitor.cs" />
     <Compile Include="InternetHistory.cs" />
+    <Compile Include="InternetBlocker.cs" />
     <Compile Include="InternetMonitor.cs" />
     <Compile Include="models\GoogleSearch.cs" />
     <Compile Include="models\GoogleSearchType.cs" />

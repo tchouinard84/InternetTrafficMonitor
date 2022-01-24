@@ -14,6 +14,9 @@ namespace InternetMonitor.Framework.Core.config
         public string AlertItemsFileName => AppSettings["AlertItemsFileName"];
         public string IgnoreItemsFileName => AppSettings["IgnoreItemsFileName"];
 
+        public string BlockItems => AppSettings["BlockItems"];
+        public string IgnoreItems => AppSettings["IgnoreItems"];
+
         public string GetDataDirectory() => Path.Combine(BaseDir, DataDir);
         public string GetTestDataDirectory() => Path.Combine(BaseDir, TestDataDir);
         public string GetAlertItemsFilePath() => Path.Combine(BaseDir, InputFilesDir, AlertItemsFileName);

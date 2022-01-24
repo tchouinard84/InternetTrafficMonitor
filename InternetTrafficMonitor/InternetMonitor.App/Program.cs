@@ -21,8 +21,9 @@ namespace InternetMonitor.TestApp
             startComment.AppendLine(startPrompt + " " + startPromptResponse);
             startComment.AppendLine($"Comments: {GetUserInput("Please provide comments.")}");
 
-            var history = new InternetHistory();
-            history.Start(startComment.ToString());
+            //var history = new InternetHistory();
+            log.Info(startComment.ToString());
+            //history.Start(startComment.ToString());
 
             var timer = new Timer { Interval = 1000 };
             timer.Elapsed += OnTimer;
@@ -32,19 +33,31 @@ namespace InternetMonitor.TestApp
             {
                 try
                 {
-                    Console.WriteLine("Type 'comment' or 'exit'.");
+                    Console.WriteLine("Type 'comment', 'pause', 'resume' or 'exit'.");
                     var input = Console.ReadLine();
 
                     if (string.IsNullOrEmpty(input)) { continue; }
 
                     if (input == "comment")
                     {
-                        history.WriteEntry(GetUserInput("Enter comments."), string.Empty);
+                        //history.WriteEntry(GetUserInput("Enter comments."), string.Empty);
+                        log.Info(GetUserInput("Enter comments."));
                         continue;
+                    }
+                    if (input == "pause")
+                    {
+                        log.Info("Pausing Internet Monitor.");
+                        timer.Stop();
+                    }
+                    if (input == "resume")
+                    {
+                        log.Info("Resuming Internet Monitor");
+                        timer.Start();
                     }
                     if (input != "exit") { continue; }
 
-                    history.Stop(GetUserInput("Please enter a reason."));
+                    log.Info(GetUserInput("Please enter a reason."));
+                    //history.Stop(GetUserInput("Please enter a reason."));
                     break;
                 }
                 catch (Exception e)
@@ -59,7 +72,7 @@ namespace InternetMonitor.TestApp
         {
             try
             {
-                var monitor = new Framework.Core.InternetMonitor();
+                var monitor = new InternetBlocker();
                 monitor.CheckProcesses();
             }
             catch (Exception ex)

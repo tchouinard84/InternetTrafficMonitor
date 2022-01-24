@@ -40,7 +40,7 @@
             // 
             this.serviceInstaller1.Description = "My Internet Monitor Service";
             this.serviceInstaller1.DisplayName = "Internet Monitor Service";
-            this.serviceInstaller1.ServiceName = "InternetMonitorService";
+            this.serviceInstaller1.ServiceName = "InternetBlockerService";
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller

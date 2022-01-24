@@ -9,7 +9,7 @@ namespace InternetMonitor.MyService
         /// </summary>
         public static void Main()
         {
-            var servicesToRun = new ServiceBase[] { new InternetMonitorService() };
+            var servicesToRun = new ServiceBase[] { new InternetBlockerService() };
             ServiceBase.Run(servicesToRun);
         }
     }

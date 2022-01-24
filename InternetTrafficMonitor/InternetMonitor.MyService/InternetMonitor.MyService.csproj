@@ -59,6 +59,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InternetBlockerService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="InternetBlockerService.Designer.cs">
+      <DependentUpon>InternetBlockerService.cs</DependentUpon>
+    </Compile>
     <Compile Include="InternetMonitorService.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -82,6 +88,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="InternetBlockerService.resx">
+      <DependentUpon>InternetBlockerService.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="InternetMonitorService.resx">
       <DependentUpon>InternetMonitorService.cs</DependentUpon>
     </EmbeddedResource>
