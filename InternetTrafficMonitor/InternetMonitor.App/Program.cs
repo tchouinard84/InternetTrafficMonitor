@@ -11,6 +11,8 @@ namespace InternetMonitor.TestApp
     {
         private static readonly ILogger log = LogManager.GetCurrentClassLogger();
 
+        private static readonly IInternetBlocker _blocker = new InternetBlocker();
+
         public static void Main(string[] args)
         {
             var startComment = new StringBuilder();
@@ -33,7 +35,7 @@ namespace InternetMonitor.TestApp
             {
                 try
                 {
-                    Console.WriteLine("Type 'comment', 'pause', 'resume' or 'exit'.");
+                    Console.WriteLine("Type 'comment', 'pause', 'resume', 'ignore', 'block' or 'exit'.");
                     var input = Console.ReadLine();
 
                     if (string.IsNullOrEmpty(input)) { continue; }
@@ -58,6 +60,16 @@ namespace InternetMonitor.TestApp
                         history.Start(resumeReason);
                         timer.Start();
                     }
+                    if (input == "ignore")
+                    {
+                        var ignore = GetUserInput("Enter title to ignore.");
+                        _blocker.IgnoreItem(ignore);
+                    }
+                    if (input == "block")
+                    {
+                        var block = GetUserInput("Enter item to block.");
+                        _blocker.BlockItem(block);
+                    }
                     if (input != "exit") { continue; }
 
                     var exitReason = GetUserInput("Please enter a reason.");
@@ -77,8 +89,7 @@ namespace InternetMonitor.TestApp
         {
             try
             {
-                var monitor = new InternetBlocker();
-                monitor.CheckProcesses();
+                _blocker.CheckProcesses();
             }
             catch (Exception ex)
             {

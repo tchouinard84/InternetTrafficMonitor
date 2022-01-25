@@ -70,6 +70,7 @@
     <Compile Include="Config\AppConfig.cs" />
     <Compile Include="Data\HistoryData.cs" />
     <Compile Include="Data\IHistoryData.cs" />
+    <Compile Include="IInternetBlocker.cs" />
     <Compile Include="IInternetHistory.cs" />
     <Compile Include="IInternetMonitor.cs" />
     <Compile Include="InternetHistory.cs" />

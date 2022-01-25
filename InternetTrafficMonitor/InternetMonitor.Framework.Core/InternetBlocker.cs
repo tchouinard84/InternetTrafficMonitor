@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace InternetMonitor.Framework.Core
 {
-    public class InternetBlocker : IInternetMonitor
+    public class InternetBlocker : IInternetBlocker
     {
         private static readonly ILogger log = LogManager.GetCurrentClassLogger();
 
@@ -29,6 +29,18 @@ namespace InternetMonitor.Framework.Core
                 new InternetExplorerUrlRetriever(),
                 new FirefoxUrlRetriever()
             };
+        }
+
+        public void IgnoreItem(string item)
+        {
+            var path = _config.GetIgnoreItemsFilePath();
+            File.AppendAllLines(path, new []{ item });
+        }
+
+        public void BlockItem(string item)
+        {
+            var path = _config.GetAlertItemsFilePath();
+            File.AppendAllLines(path, new[] { item });
         }
 
         public void CheckProcesses()
@@ -92,34 +104,19 @@ namespace InternetMonitor.Framework.Core
             return false;
         }
 
-        private IEnumerable<string> GetIgnoreItems() => GetConfigItems(_config.IgnoreItems);
-        private IEnumerable<string> GetBlockItems() => GetConfigItems(_config.BlockItems);
+        private IEnumerable<string> GetIgnoreItems() => GetConfigItems(_config.GetIgnoreItemsFilePath());
+        private IEnumerable<string> GetBlockItems() => GetConfigItems(_config.GetAlertItemsFilePath());
 
-        private static IEnumerable<string> GetConfigItems(string items)
+        private static IEnumerable<string> GetConfigItems(string path)
         {
-            if (string.IsNullOrEmpty(items)) { return Enumerable.Empty<string>(); }
-
             try
             {
-                return items.Split(',').Select(x => x.Trim());
+                return File.ReadAllLines(path);
             }
             catch (Exception e)
             {
-                log.Error(e, "Error trying to Get the Ignore Items");
+                log.Error(e, $"Error trying to Get the Items from - {path}");
                 return Enumerable.Empty<string>();
-            }
-        }
-
-        private IEnumerable<string> GetIgnoreItems2()
-        {
-            try
-            {
-                return File.ReadAllLines(_config.GetIgnoreItemsFilePath());
-            }
-            catch (Exception e)
-            {
-                log.Error(e, "Error trying to Get the Ignore Items");
-                return new List<string>();
             }
         }
     }
