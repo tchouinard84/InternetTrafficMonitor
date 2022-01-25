@@ -1,8 +1,8 @@
-﻿using System;
+﻿using InternetMonitor.Framework.Core.Models;
+using System;
 using System.Collections.Generic;
-using InternetMonitor.Framework.Core.models;
 
-namespace InternetMonitor.Framework.Core.data
+namespace InternetMonitor.Framework.Core.Data
 {
     public interface IHistoryData
     {

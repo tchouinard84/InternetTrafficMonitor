@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Automation;
 
-namespace InternetMonitor.Framework.Core.browser
+namespace InternetMonitor.Framework.Core.Browser
 {
     public abstract class UrlRetriever : IUrlRetriever
     {

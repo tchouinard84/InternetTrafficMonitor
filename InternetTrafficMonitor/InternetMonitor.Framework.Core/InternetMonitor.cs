@@ -1,6 +1,6 @@
-﻿using InternetMonitor.Framework.Core.browser;
-using InternetMonitor.Framework.Core.config;
-using InternetMonitor.Framework.Core.models;
+﻿using InternetMonitor.Framework.Core.Browser;
+using InternetMonitor.Framework.Core.Config;
+using InternetMonitor.Framework.Core.Models;
 using NLog;
 using System;
 using System.Collections.Generic;

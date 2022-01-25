@@ -1,5 +1,5 @@
-﻿using InternetMonitor.Framework.Core.config;
-using InternetMonitor.Framework.Core.models;
+﻿using InternetMonitor.Framework.Core.Config;
+using InternetMonitor.Framework.Core.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 using System;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace InternetMonitor.Framework.Core.data
+namespace InternetMonitor.Framework.Core.Data
 {
     public class HistoryData : IHistoryData
     {

@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using static System.Configuration.ConfigurationManager;
 
-namespace InternetMonitor.Framework.Core.config
+namespace InternetMonitor.Framework.Core.Config
 {
     public class AppConfig
     {

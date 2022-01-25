@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace InternetMonitor.Framework.Core.browser
+namespace InternetMonitor.Framework.Core.Browser
 {
     public interface IUrlRetriever
     {

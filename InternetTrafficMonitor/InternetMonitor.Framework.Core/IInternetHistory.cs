@@ -1,4 +1,4 @@
-﻿using InternetMonitor.Framework.Core.models;
+﻿using InternetMonitor.Framework.Core.Models;
 
 namespace InternetMonitor.Framework.Core
 {

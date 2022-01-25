@@ -1,6 +1,6 @@
 ﻿using System.Windows.Automation;
 
-namespace InternetMonitor.Framework.Core.browser
+namespace InternetMonitor.Framework.Core.Browser
 {
     public class ChromeUrlRetriever : UrlRetriever
     {

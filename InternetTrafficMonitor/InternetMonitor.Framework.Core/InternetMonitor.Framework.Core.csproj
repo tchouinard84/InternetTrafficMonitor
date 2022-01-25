@@ -62,26 +62,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="browser\ChromeUrlRetriever.cs" />
-    <Compile Include="browser\FirefoxUrlRetriever.cs" />
-    <Compile Include="browser\InternetExplorerUrlRetriever.cs" />
-    <Compile Include="browser\IUrlRetriever.cs" />
-    <Compile Include="browser\UrlRetriever.cs" />
-    <Compile Include="config\AppConfig.cs" />
-    <Compile Include="data\HistoryData.cs" />
-    <Compile Include="data\IHistoryData.cs" />
+    <Compile Include="Browser\ChromeUrlRetriever.cs" />
+    <Compile Include="Browser\FirefoxUrlRetriever.cs" />
+    <Compile Include="Browser\InternetExplorerUrlRetriever.cs" />
+    <Compile Include="Browser\IUrlRetriever.cs" />
+    <Compile Include="Browser\UrlRetriever.cs" />
+    <Compile Include="Config\AppConfig.cs" />
+    <Compile Include="Data\HistoryData.cs" />
+    <Compile Include="Data\IHistoryData.cs" />
     <Compile Include="IInternetHistory.cs" />
     <Compile Include="IInternetMonitor.cs" />
     <Compile Include="InternetHistory.cs" />
     <Compile Include="InternetBlocker.cs" />
     <Compile Include="InternetMonitor.cs" />
-    <Compile Include="models\GoogleSearch.cs" />
-    <Compile Include="models\GoogleSearchType.cs" />
-    <Compile Include="models\InternetHistoryEntry.cs" />
-    <Compile Include="models\LogType.cs" />
-    <Compile Include="models\LogTypeConverter.cs" />
-    <Compile Include="models\YouTube.cs" />
-    <Compile Include="models\YouTubeType.cs" />
+    <Compile Include="Models\GoogleSearch.cs" />
+    <Compile Include="Models\GoogleSearchType.cs" />
+    <Compile Include="Models\InternetHistoryEntry.cs" />
+    <Compile Include="Models\LogType.cs" />
+    <Compile Include="Models\LogTypeConverter.cs" />
+    <Compile Include="Models\YouTube.cs" />
+    <Compile Include="Models\YouTubeType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

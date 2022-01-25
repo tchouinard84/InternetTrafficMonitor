@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace InternetMonitor.Framework.Core.models
+namespace InternetMonitor.Framework.Core.Models
 {
     public class YouTube
     {

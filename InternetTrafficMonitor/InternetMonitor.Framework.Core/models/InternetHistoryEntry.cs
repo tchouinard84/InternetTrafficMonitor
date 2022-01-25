@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
-namespace InternetMonitor.Framework.Core.models
+namespace InternetMonitor.Framework.Core.Models
 {
     public class InternetHistoryEntry
     {

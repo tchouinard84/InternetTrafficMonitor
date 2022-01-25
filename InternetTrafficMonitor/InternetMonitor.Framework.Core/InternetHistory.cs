@@ -1,5 +1,5 @@
-﻿using InternetMonitor.Framework.Core.data;
-using InternetMonitor.Framework.Core.models;
+﻿using InternetMonitor.Framework.Core.Data;
+using InternetMonitor.Framework.Core.Models;
 using System.Linq;
 
 namespace InternetMonitor.Framework.Core
