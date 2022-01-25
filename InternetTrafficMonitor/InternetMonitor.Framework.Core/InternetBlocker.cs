@@ -1,10 +1,12 @@
 ﻿using InternetMonitor.Framework.Core.browser;
 using InternetMonitor.Framework.Core.config;
+using InternetMonitor.Framework.Core.models;
 using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.IO;
 
 namespace InternetMonitor.Framework.Core
 {
@@ -42,8 +44,6 @@ namespace InternetMonitor.Framework.Core
                         if (block)
                         {
                             log.Info($"Blocking {process.MainWindowTitle} : {url}");
-                            //process.Kill();
-                            //process.Close();
                             process.CloseMainWindow();
                         }
                     }
@@ -76,9 +76,19 @@ namespace InternetMonitor.Framework.Core
         {
             foreach (var blockWords in GetBlockItems())
             {
-                if (title.ToLower().Contains(blockWords)) { return true; }
-                if (url.ToLower().Contains(blockWords)) { return true; }
+                if (title.ToLower().Contains(blockWords))
+                {
+                    _history.WriteEntry(LogType.Alert, title, url);
+                    return true;
+                }
+                if (url.ToLower().Contains(blockWords))
+                {
+                    _history.WriteEntry(LogType.Alert, title, url);
+                    return true;
+                }
             }
+
+            _history.WriteEntry(LogType.Info, title, url);
             return false;
         }
 
@@ -97,6 +107,19 @@ namespace InternetMonitor.Framework.Core
             {
                 log.Error(e, "Error trying to Get the Ignore Items");
                 return Enumerable.Empty<string>();
+            }
+        }
+
+        private IEnumerable<string> GetIgnoreItems2()
+        {
+            try
+            {
+                return File.ReadAllLines(_config.GetIgnoreItemsFilePath());
+            }
+            catch (Exception e)
+            {
+                log.Error(e, "Error trying to Get the Ignore Items");
+                return new List<string>();
             }
         }
     }

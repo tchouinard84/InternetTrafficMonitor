@@ -39,6 +39,9 @@ namespace InternetMonitor.Framework.Core.models
         public static InternetHistoryEntry StopEntry(string reason) =>
             new InternetHistoryEntry(LogType.Stop, reason);
 
+        public static InternetHistoryEntry CommentEntry(string comment) =>
+            new InternetHistoryEntry(LogType.Info, comment);
+
         public static InternetHistoryEntry Entry(LogType type, string title, string url) =>
             new InternetHistoryEntry(type, title, url);
 

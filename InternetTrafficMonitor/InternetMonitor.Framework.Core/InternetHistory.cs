@@ -1,20 +1,15 @@
-﻿using InternetMonitor.Framework.Core.config;
-using InternetMonitor.Framework.Core.data;
+﻿using InternetMonitor.Framework.Core.data;
 using InternetMonitor.Framework.Core.models;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace InternetMonitor.Framework.Core
 {
     public class InternetHistory : IInternetHistory
     {
-        private readonly AppConfig _config;
         private readonly IHistoryData _data;
 
         public InternetHistory()
         {
-            _config = new AppConfig();
             _data = new HistoryData();
         }
 
@@ -28,6 +23,11 @@ namespace InternetMonitor.Framework.Core
             _data.Write(InternetHistoryEntry.StopEntry(reason));
         }
 
+        public void Comment(string comment)
+        {
+            _data.Write(InternetHistoryEntry.CommentEntry(comment));
+        }
+
         public bool Contains(string url, string title)
         {
             var data = _data.Read();
@@ -36,23 +36,11 @@ namespace InternetMonitor.Framework.Core
             return data.Any(d => d.Title == title);
         }
 
-        public void WriteEntry(string title, string url)
+        public void WriteEntry(LogType type, string title, string url)
         {
-            var type = DetermineType(title, url);
+            if (Contains(url, title)) { return; }
             var entry = InternetHistoryEntry.Entry(type, title, url);
             _data.Write(entry);
         }
-
-        private LogType DetermineType(string title, string url)
-        {
-            foreach (var alertWord in GetAlertItems())
-            {
-                if (title.ToLower().Contains(alertWord)) { return LogType.Alert; }
-                if (url.ToLower().Contains(alertWord)) { return LogType.Alert; }
-            }
-            return LogType.Info;
-        }
-
-        private IEnumerable<string> GetAlertItems() => File.ReadAllLines(_config.GetAlertItemsFilePath()).ToList();
     }
 }

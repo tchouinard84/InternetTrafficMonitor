@@ -21,9 +21,9 @@ namespace InternetMonitor.TestApp
             startComment.AppendLine(startPrompt + " " + startPromptResponse);
             startComment.AppendLine($"Comments: {GetUserInput("Please provide comments.")}");
 
-            //var history = new InternetHistory();
+            IInternetHistory history = new InternetHistory();
+            history.Start(startComment.ToString());
             log.Info(startComment.ToString());
-            //history.Start(startComment.ToString());
 
             var timer = new Timer { Interval = 1000 };
             timer.Elapsed += OnTimer;
@@ -40,24 +40,29 @@ namespace InternetMonitor.TestApp
 
                     if (input == "comment")
                     {
-                        //history.WriteEntry(GetUserInput("Enter comments."), string.Empty);
-                        log.Info(GetUserInput("Enter comments."));
+                        history.Comment(GetUserInput("Enter comments."));
+                        log.Debug(GetUserInput("Enter comments."));
                         continue;
                     }
                     if (input == "pause")
                     {
-                        log.Info("Pausing Internet Monitor.");
+                        var pauseReason = GetUserInput("Why are you pausing?");
+                        log.Debug($"Pausing Internet Monitor: {pauseReason}");
+                        history.Stop(pauseReason);
                         timer.Stop();
                     }
                     if (input == "resume")
                     {
-                        log.Info("Resuming Internet Monitor");
+                        var resumeReason = GetUserInput("Enter comments.");
+                        log.Debug($"Resuming Internet Monitor: {resumeReason}");
+                        history.Start(resumeReason);
                         timer.Start();
                     }
                     if (input != "exit") { continue; }
 
-                    log.Info(GetUserInput("Please enter a reason."));
-                    //history.Stop(GetUserInput("Please enter a reason."));
+                    var exitReason = GetUserInput("Please enter a reason.");
+                    history.Stop(exitReason);
+                    log.Info(exitReason);
                     break;
                 }
                 catch (Exception e)

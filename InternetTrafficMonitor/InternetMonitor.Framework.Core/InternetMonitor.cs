@@ -1,5 +1,6 @@
 ﻿using InternetMonitor.Framework.Core.browser;
 using InternetMonitor.Framework.Core.config;
+using InternetMonitor.Framework.Core.models;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -58,13 +59,26 @@ namespace InternetMonitor.Framework.Core
                 if (GetIgnoreItems().Any(title.Contains)) { return; }
                 if (_history.Contains(url, title)) { return; }
 
-                _history.WriteEntry(title, url);
+                var type = DetermineType(url, title);
+                _history.WriteEntry(type, title, url);
             }
             catch (Exception e)
             {
                 log.Error(e, "Error with MaybeWriteEntry");
             }
         }
+
+        private LogType DetermineType(string title, string url)
+        {
+            foreach (var alertWord in GetAlertItems())
+            {
+                if (title.ToLower().Contains(alertWord)) { return LogType.Alert; }
+                if (url.ToLower().Contains(alertWord)) { return LogType.Alert; }
+            }
+            return LogType.Info;
+        }
+
+        private IEnumerable<string> GetAlertItems() => File.ReadAllLines(_config.GetAlertItemsFilePath());
 
         private IEnumerable<string> GetIgnoreItems()
         {
