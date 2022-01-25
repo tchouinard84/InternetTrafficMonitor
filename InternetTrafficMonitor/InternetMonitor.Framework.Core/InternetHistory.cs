@@ -28,19 +28,19 @@ namespace InternetMonitor.Framework.Core
             _data.Write(InternetHistoryEntry.CommentEntry(comment));
         }
 
-        public bool Contains(string url, string title)
+        public void WriteEntry(LogType type, string title, string url)
+        {
+            if (Contains(title, url)) { return; }
+            var entry = InternetHistoryEntry.Entry(type, title, url);
+            _data.Write(entry);
+        }
+
+        private bool Contains(string title, string url)
         {
             var data = _data.Read();
             if (data.Count == 0) { return false; }
             if (data.Any(d => d.Url == url)) { return true; }
             return data.Any(d => d.Title == title);
-        }
-
-        public void WriteEntry(LogType type, string title, string url)
-        {
-            if (Contains(url, title)) { return; }
-            var entry = InternetHistoryEntry.Entry(type, title, url);
-            _data.Write(entry);
         }
     }
 }

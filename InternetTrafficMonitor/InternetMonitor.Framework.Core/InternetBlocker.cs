@@ -40,7 +40,7 @@ namespace InternetMonitor.Framework.Core
                     foreach (var process in Process.GetProcessesByName(urlRetriever.Browser))
                     {
                         var url = urlRetriever.GetUrl(process);
-                        var block = MaybeBlock(url, process.MainWindowTitle);
+                        var block = MaybeBlock(process.MainWindowTitle, url);
                         if (block)
                         {
                             log.Info($"Blocking {process.MainWindowTitle} : {url}");
@@ -55,7 +55,7 @@ namespace InternetMonitor.Framework.Core
             }
         }
 
-        private bool MaybeBlock(string url, string title)
+        private bool MaybeBlock(string title, string url)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace InternetMonitor.Framework.Core
                 if (title == string.Empty) { return false; }
                 if (GetIgnoreItems().Any(title.Contains)) { return false; }
 
-                return MaybeBlockItem(url, title);
+                return MaybeBlockItem(title, url);
             }
             catch (Exception e)
             {
@@ -72,7 +72,7 @@ namespace InternetMonitor.Framework.Core
             }
         }
 
-        private bool MaybeBlockItem(string url, string title)
+        private bool MaybeBlockItem(string title, string url)
         {
             foreach (var blockWords in GetBlockItems())
             {

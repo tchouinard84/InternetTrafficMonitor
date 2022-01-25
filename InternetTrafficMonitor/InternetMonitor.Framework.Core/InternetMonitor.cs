@@ -40,7 +40,7 @@ namespace InternetMonitor.Framework.Core
                     foreach (var process in Process.GetProcessesByName(urlRetriever.Browser))
                     {
                         var url = urlRetriever.GetUrl(process);
-                        MaybeWriteEntry(url, process.MainWindowTitle);
+                        MaybeWriteEntry(process.MainWindowTitle, url);
                     }
                 }
             }
@@ -50,16 +50,15 @@ namespace InternetMonitor.Framework.Core
             }
         }
 
-        private void MaybeWriteEntry(string url, string title)
+        private void MaybeWriteEntry(string title, string url)
         {
             try
             {
                 if (url == null) { return; }
                 if (title == string.Empty) { return; }
                 if (GetIgnoreItems().Any(title.Contains)) { return; }
-                if (_history.Contains(url, title)) { return; }
 
-                var type = DetermineType(url, title);
+                var type = DetermineType(title, url);
                 _history.WriteEntry(type, title, url);
             }
             catch (Exception e)
